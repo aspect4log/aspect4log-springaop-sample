@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- For assistance related to logback-translator or configuration -->
+<!-- files in general, please contact the logback user mailing list -->
+<!-- at http://www.qos.ch/mailman/listinfo/logback-user -->
+<!-- -->
+<!-- For professional support please see -->
+<!-- http://www.qos.ch/shop/products/professionalSupport -->
+<!-- -->
+<configuration>
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<target>System.out</target>
+		<encoder>
+			<charset>UTF-8</charset>
+			<!-- http://logback.qos.ch/manual/layouts.html -->
+			<pattern>%date{HH:mm:ss} %-5.5level [%10.10thread] %20.20mdc  %40.40logger{40}  : %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<logger name="org.springframework" level="WARN" />
+	<logger name="org.foo" level="DEBUG" />
+	<root level="INFO">
+		<appender-ref ref="stdout" />
+	</root>
+</configuration>
