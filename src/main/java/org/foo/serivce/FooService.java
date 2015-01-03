@@ -1,14 +1,15 @@
 package org.foo.serivce;
 
-import static net.sf.aspect4log.LogLevel.ERROR;
-import static net.sf.aspect4log.LogLevel.INFO;
-import static net.sf.aspect4log.LogLevel.TRACE;
-import static net.sf.aspect4log.LogLevel.WARN;
+import static net.sf.aspect4log.Log.Level.ERROR;
+import static net.sf.aspect4log.Log.Level.INFO;
+import static net.sf.aspect4log.Log.Level.TRACE;
+import static net.sf.aspect4log.Log.Level.WARN;
+import static net.sf.aspect4log.Log.Level.NONE;
 
 import java.util.regex.Pattern;
 
 import net.sf.aspect4log.Log;
-import net.sf.aspect4log.LogException;
+import net.sf.aspect4log.Log.Exceptions;
 
 import org.foo.dao.FooDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,48 +20,63 @@ import org.springframework.stereotype.Service;
 public class FooService {
 	@Autowired
 	FooDao dao;
+
 	public enum Gender {
 		MALE, FEMALE
 	}
 
 	public String helloDefaultLogging(String name, Gender gender) {
-		return createGreeting(name, gender);
+		name = createGreeting(name, gender);
+		dao.find(name);
+		dao.saveOrUpdate(name);
+		return name;
 
 	}
 
-	@Log(enterLevel=TRACE,exitLevel=INFO,logExceptions={@LogException(level=WARN)})
-	public String helloCustomizedLogLevel(String name,Gender gender) {
+	@Log(enterLevel = TRACE, exitLevel = INFO, on = @Exceptions(level = WARN))
+	public String helloCustomizedLogLevel(String name, Gender gender) {
+		return createGreeting(name, gender);
+	}
+
+	@Log(on = { @Exceptions(exceptions = IllegalArgumentException.class, level = WARN, stackTrace = false), @Exceptions(level = ERROR) })
+	public String helloDifferentLogLevelForExceptions(String name, Gender gender) {
+		return createGreeting(name, gender);
+	}
+
+	@Log(argumentsTemplate = "name=${args[0]}", resultTemplate = "${result}")
+	public String helloCustomizedTemplate(String name, Gender gender) {
 		return createGreeting(name, gender);
 	}
 	
-	@Log(logExceptions={@LogException(exceptions={IllegalArgumentException.class}, level=WARN, printStackTrace=false),@LogException(level=ERROR)})
-	public String helloDifferentLogLevelForExceptions(String name,Gender gender) {
-		return createGreeting(name, gender);
+	@Log(enterLevel=NONE,exitLevel=NONE)
+	public void helloDoNotLog() {
+		//do nothing
 	}
 
-	@Log(argumentsTemplate = "name=${args[0]}",resultTemplate="${result}")
-	public String helloCustomizedTemplate(String name,Gender gender) {
+
+	@Log(mdcKey = "userName", mdcTemplate = "${args[0]}")
+	public String helloMdc(String name, Gender gender) {
 		return createGreeting(name, gender);
 	}
 
 	@Log(mdcKey = "userName", mdcTemplate = "${args[0]}")
-	public String helloMdc(String name,Gender gender) {
+	public String helloIdent(String name, Gender gender) {
 		return createGreeting(name, gender);
 	}
 
 	private String createGreeting(String name, Gender gender) {
 		checkValidName(name);
-		if (gender==Gender.MALE) {
+		if (gender == Gender.MALE) {
 			return "Hello Mr. " + name;
 		} else {
 			return "Hello Mrs. " + name;
 		}
 	}
-	
-	
-	//starts with letter, has at least one space
-	//(?=\w+ )^\w[\w ]*\w$
+
+	// starts with letter, has at least one space
+	// (?=\w+ )^\w[\w ]*\w$
 	private static final Pattern sillyNamePattern = Pattern.compile("(?=\\w+ )^\\w[\\w ]*\\w$", Pattern.CASE_INSENSITIVE);
+
 	private void checkValidName(String name) {
 		if (name == null) {
 			throw new NullPointerException("name must not be null");
@@ -69,5 +85,5 @@ public class FooService {
 			throw new IllegalArgumentException(name + " - is not a propper name.");
 		}
 	}
-	
+
 }
