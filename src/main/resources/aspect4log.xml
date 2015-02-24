@@ -9,8 +9,8 @@
 			<methodEnterSymbol>↓</methodEnterSymbol>
 			<methodSuccessfulExitSymbol>↑</methodSuccessfulExitSymbol>
 			<methodThrownExceptionExitSymbol>⇑</methodThrownExceptionExitSymbol>
-			<returnedValueSeporator> → </returnedValueSeporator>
-			<thrownExceptionSeporator> ⇒ </thrownExceptionSeporator>
+			<returnedValueSeparator> → </returnedValueSeparator>
+			<thrownExceptionSeparator> ⇒ </thrownExceptionSeparator>
 			
 			<elementsDelitmeter>, </elementsDelitmeter>
 			<mapKeyValueDelimeter>=</mapKeyValueDelimeter>
