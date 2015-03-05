@@ -18,7 +18,7 @@
 		</rollingPolicy>
 	</appender>
 	<logger name="org.springframework" level="INFO" /> 
-	<logger name="ru.handybank.mes.payment" level="TRACE"/>
+	<logger name="org.foo" level="TRACE"/>
 	<logger name="org.apache.tapestry" level="INFO"/>
 	<root level="INFO">
 		<appender-ref ref="stdout" />

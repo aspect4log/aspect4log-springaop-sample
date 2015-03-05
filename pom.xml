@@ -2,15 +2,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.foo</groupId>
 	<artifactId>aspect4log-spring-sample</artifactId>
-	<version>1.0.5</version>
+	<version>1.0.7</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- aspect4log can work with java 1.6 and above -->
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
 		<!-- the logging is done via slf4j -->
-		<slf4j.version>1.7.6</slf4j.version>
-		<spring.version>4.1.3.RELEASE</spring.version>
+		<slf4j.version>1.7.10</slf4j.version>
+		<spring.version>4.1.5.RELEASE</spring.version>
+		<aspectj.version>1.8.5</aspectj.version>
 	</properties>
 
 	<dependencyManagement>
@@ -58,12 +59,12 @@
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
-			<version>1.8.4</version>
+			<version>${aspectj.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.aspect4log</groupId>
 			<artifactId>aspect4log</artifactId>
-			<version>1.0.6</version>
+			<version>1.0.7</version>
 		</dependency>
 	</dependencies>
 </project>
